@@ -1,1 +1,11 @@
-export { default as TempComponent } from "./TempComponent";
+import TempComponent from "./TempComponent";
+import Header from "./Header";
+import ItemList from "./ItemList";
+
+
+
+export {
+  Header,
+  TempComponent,
+  ItemList
+}
