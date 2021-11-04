@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import MDEditor from "@uiw/react-md-editor";
-import {
-  Button,
-  Divider,
-  Form,
-  Grid,
-  Input,
-  Icon,
-  TextArea
-} from "semantic-ui-react";
+import { Divider, Form, Label, Input, TextArea } from "semantic-ui-react";
+import { ButtonArea } from "../components";
+import { useHistory } from "react-router-dom";
+import styles from "../css/CreatePostPage.module.css";
 
 const CreatePostPage = () => {
-  //   const [value, setValue] = React.useState("**Hello world!!!**");
+  const history = useHistory();
   const [workingInPost] = useState(
     () => JSON.parse(window.localStorage.getItem("post")) || ""
   );
@@ -22,6 +16,7 @@ const CreatePostPage = () => {
 
   useEffect(() => {
     if (workingInPost) {
+      // 임시저장되어 있는 값 셋팅
       console.log(workingInPost);
       setTitle(workingInPost.title);
       setTags(workingInPost.tags);
@@ -29,14 +24,22 @@ const CreatePostPage = () => {
     }
   }, []);
 
+  const handleKeyPress = event => {
+    if (event.key === "Enter" || event.key === ",") {
+      console.log("Enter key or comma pressed");
+    }
+  };
+
   const handleClick = (event, data) => {
     const { id } = data;
     switch (id) {
+      case "btnExit":
+        console.log("btnExit");
+        history.push("/");
+        break;
       case "btnSave":
         console.log("btnSave");
-        console.log("title", title);
-        console.log("tags", tags);
-        console.log("content", content);
+        console.log("title, tags, content", title, tags, content);
 
         axios
           .post("https://limitless-sierra-67996.herokuapp.com/v1" + "/posts", {
@@ -45,6 +48,7 @@ const CreatePostPage = () => {
           })
           .then(response => {
             console.log(response);
+            history.push("/");
           })
           .catch(error => {
             console.e(error);
@@ -52,9 +56,7 @@ const CreatePostPage = () => {
         break;
       case "btnSaveTmp":
         console.log("btnSaveTmp");
-        console.log("title", title);
-        console.log("tags", tags);
-        console.log("content", content);
+        console.log("title, tags, content", title, tags, content);
 
         window.localStorage.setItem(
           "post",
@@ -64,65 +66,42 @@ const CreatePostPage = () => {
     }
   };
   return (
-    <Form>
-      <Form.Field>
-        <Input
-          size="big"
-          fluid
-          transparent
-          placeholder="제목을 입력하세요"
-          onChange={e => setTitle(e.target.value)}
-          defaultValue={title}
-        />
-      </Form.Field>
-      <Form.Field>
-        <Input
-          size="small"
-          fluid
-          transparent
-          placeholder="태그를 입력하세요"
-          onChange={e => setTags(e.target.value)}
-          defaultValue={tags}
-        />
-      </Form.Field>
+    <>
+      <Input
+        size="big"
+        fluid
+        transparent
+        placeholder="제목을 입력하세요"
+        onChange={e => setTitle(e.target.value)}
+        defaultValue={title}
+        className={styles.inputArea}
+      />
+      <Input
+        size="small"
+        fluid
+        transparent
+        placeholder="태그를 입력하세요"
+        //   onChange={e => setTags(e.target.value)}
+        onKeyPress={e => handleKeyPress(e)}
+        defaultValue={tags}
+        className={styles.inputArea}
+      />
 
       <Divider clearing />
-      {/* <MDEditor value={value} onChange={setValue} /> */}
-      <Form.Field>
+
+      <Form>
         <TextArea
           placeholder="Tell us more"
           onChange={e => setContent(e.target.value)}
+          style={{ minHeight: 700 }}
           defaultValue={content}
         />
-      </Form.Field>
+      </Form>
 
       <Divider />
 
-      <Form.Field>
-        <Grid>
-          <Grid.Column floated="left" width={5}>
-            <Icon name="arrow left" />
-            나가기
-          </Grid.Column>
-          <Grid.Column textAlign="right" floated="right" width={5}>
-            <Button
-              id="btnSaveTmp"
-              secondary
-              onClick={(event, data) => handleClick(event, data)}
-            >
-              임시저장
-            </Button>
-            <Button
-              id="btnSave"
-              primary
-              onClick={(event, data) => handleClick(event, data)}
-            >
-              출간하기
-            </Button>
-          </Grid.Column>
-        </Grid>
-      </Form.Field>
-    </Form>
+      <ButtonArea onClick={handleClick} />
+    </>
   );
 };
 
