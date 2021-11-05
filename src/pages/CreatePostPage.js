@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Divider, Form, Label, Input, TextArea } from "semantic-ui-react";
 import { ButtonArea } from "../components";
@@ -11,8 +11,10 @@ const CreatePostPage = () => {
     () => JSON.parse(window.localStorage.getItem("post")) || ""
   );
   const [title, setTitle] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   const [content, setContent] = useState("");
+  const [currentTag, setCurrentTag] = useState("");
+  const tagInput = useRef();
 
   useEffect(() => {
     if (workingInPost) {
@@ -26,7 +28,16 @@ const CreatePostPage = () => {
 
   const handleKeyPress = event => {
     if (event.key === "Enter" || event.key === ",") {
+      event.preventDefault();
       console.log("Enter key or comma pressed");
+      const newTag = currentTag.replace(/,/g, "");
+
+      console.log("currentTag", newTag);
+      if (newTag && newTag.length > 0 && !tags.includes(newTag))
+        setTags([...tags, newTag]);
+
+      setCurrentTag("");
+      tagInput.current.value = "";
     }
   };
 
@@ -44,7 +55,8 @@ const CreatePostPage = () => {
         axios
           .post("https://limitless-sierra-67996.herokuapp.com/v1" + "/posts", {
             title,
-            body: content
+            body: content,
+            tags
           })
           .then(response => {
             console.log(response);
@@ -73,19 +85,32 @@ const CreatePostPage = () => {
         transparent
         placeholder="제목을 입력하세요"
         onChange={e => setTitle(e.target.value)}
-        defaultValue={title}
+        value={title}
         className={styles.inputArea}
       />
-      <Input
-        size="small"
-        fluid
-        transparent
-        placeholder="태그를 입력하세요"
-        //   onChange={e => setTags(e.target.value)}
-        onKeyPress={e => handleKeyPress(e)}
-        defaultValue={tags}
-        className={styles.inputArea}
-      />
+
+      <div className={styles.tagArea}>
+        <Label.Group tag className={styles.tagList}>
+          {tags &&
+            tags.length > 0 &&
+            tags.map((tag, index) => (
+              <Label key={index + "_" + tag} as="a" tag color="teal">
+                {tag}
+              </Label>
+            ))}
+          <Input
+            size="small"
+            fluid
+            transparent
+            placeholder="태그를 입력하세요"
+            onChange={e => setCurrentTag(e.target.value)}
+            onKeyUp={e => handleKeyPress(e)}
+            className={styles.inputArea}
+            value={currentTag}
+            ref={tagInput}
+          />
+        </Label.Group>
+      </div>
 
       <Divider clearing />
 
@@ -94,7 +119,7 @@ const CreatePostPage = () => {
           placeholder="Tell us more"
           onChange={e => setContent(e.target.value)}
           style={{ minHeight: 700 }}
-          defaultValue={content}
+          value={content}
         />
       </Form>
 

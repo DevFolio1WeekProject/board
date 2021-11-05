@@ -1,3 +1,30 @@
-.inputArea {
+.tagArea {
+  color: rgb(52, 58, 64);
+  font-size: 1.125rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inputArea,
+.tagArea {
   margin-top: 0.7rem;
+}
+.tagArea .inputArea {
+  margin-top: 0;
+}
+
+.tagArea .inputArea {
+  display: inline-flex;
+  outline: none;
+  cursor: text;
+  font-size: 1.125rem;
+  line-height: 2rem;
+  margin-bottom: 0.75rem;
+  min-width: 8rem;
+  border: none;
 }
