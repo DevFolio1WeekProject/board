@@ -1,6 +1,14 @@
 import TempComponent from "./TempComponent";
 import Header from "./Header";
+import Footer from "./Footer";
 import ItemList from "./ItemList";
-import ButtonArea from "./ButtonArea";
+import TagList from "./TagList";
 
-export { Header, TempComponent, ItemList, ButtonArea };
+
+export {
+  Header,
+  TempComponent,
+  ItemList,
+  Footer,
+  TagList
+}

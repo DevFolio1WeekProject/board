@@ -1,0 +1,17 @@
+
+.header {
+  height: 4rem;
+  
+  
+  
+}
+
+.header_wrap{
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  margin:auto;
+  align-items: center;
+  padding-top: 10px;
+}
+
