@@ -8,6 +8,8 @@
 
 .desc {
   color: rgb(52, 58, 64);
+  /* overflow: hidden; */
+  height: 150px;
 }
 
 .date {
@@ -25,4 +27,15 @@
   padding-right: 10px;
   border-radius: 6px;
   display: inline-block;
+}
+
+.tagList {
+  height: 45px;
+}
+
+.header {
+  font-size: 1.28571429em;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 700;
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }

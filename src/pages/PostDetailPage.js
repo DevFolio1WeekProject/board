@@ -8,29 +8,32 @@ import TagList from "../components/TagList";
 const PostDetailPage = () => {
   let location = useLocation();
   let [post, setPost] = useState(null)
-  console.log(location.pathname.split('/')[2]);
+  
   useEffect(()=>{
-    console.log(location.pathname.split('/')[2]);
-    
     axios.get('https://limitless-sierra-67996.herokuapp.com/v1/posts/' + location.pathname.split('/')[2]).then(res => {
       console.log(res);
       setPost(res.data);
-
     })
   }, [])
+
   if(!post){
     return null;
   }
 
+  console.log('post.body', post.body);
+  let title = post.title.split('\\n').join('<br />').split('&lt;').join('<');
+  let content = post.body.split('\\n').join('<br />').split('&lt;').join('<');
+  
+
   return <div>
     <Header/>
     <Container>
-    <h2>{post.title}</h2>
+    <h1 dangerouslySetInnerHTML={{__html:title}}></h1>
+    <hr/>
     <div>
       <TagList tags={post.tags}/>
     </div>
-    <div dangerouslySetInnerHTML={{__html: post.body}}>
-      
+    <div dangerouslySetInnerHTML={{__html:content}}>
     </div>
     </Container>
   </div>
