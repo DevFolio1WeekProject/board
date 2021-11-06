@@ -56,8 +56,8 @@ const CreatePostPage = () => {
   };
 
   const handleClick = (event, data) => {
-    const { id } = data;
-    switch (id) {
+    const { name } = data;
+    switch (name) {
       case "btnExit":
         console.log("btnExit");
         history.push("/");
