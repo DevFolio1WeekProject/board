@@ -1,6 +1,10 @@
-
 .ItemList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
+}
+
+.ItemList::after {
+  content: "";
+  flex: auto;
 }

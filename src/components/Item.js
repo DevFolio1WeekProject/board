@@ -45,7 +45,10 @@ export default function Item(props) {
         style={{ marginTop: "15px", marginBottom: "15px" }}
       >
         <Card.Content style={{ height: "65px" }}>
-          <div className={classes.header} dangerouslySetInnerHTML={{__html:title}}/>
+          <div
+            className={classes.header}
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
         </Card.Content>
         <Card.Content style={{ height: "200px" }}>
           <div
