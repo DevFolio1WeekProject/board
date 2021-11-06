@@ -17,10 +17,9 @@ const PostDetailPage = () => {
       setPost(res.data);
     })
 
-    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/comments/postId=' + location.pathname.split('/')[2]).then(res => {
+    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=' + location.pathname.split('/')[2]).then(res => {
       console.log(res);
-      setComments(res.data);
-
+      setComments(res.data.results);
     })
   }, [])
 
@@ -32,7 +31,11 @@ const PostDetailPage = () => {
   let title = post.title.split('\\n').join('<br />').split('&lt;').join('<');
   let content = post.body.split('\\n').join('<br />').split('&lt;').join('<');
   
+  console.log(comments);
+  if(comments.length > 0 ){
+//    alert('asdasds');
 
+  }
   return <div>
     <Header/>
     <Container>
