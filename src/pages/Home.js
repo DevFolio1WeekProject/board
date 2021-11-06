@@ -16,7 +16,7 @@ const Home = () => {
       <main>
         <ItemList items={items}/>
       </main>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };

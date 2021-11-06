@@ -21,6 +21,7 @@ const PostDetailPage = () => {
   if(!post){
     return null;
   }
+
   return <div>
     <Header/>
     <Container>
@@ -28,8 +29,8 @@ const PostDetailPage = () => {
     <div>
       <TagList tags={post.tags}/>
     </div>
-    <div>
-      {post.body}
+    <div dangerouslySetInnerHTML={{__html: post.body}}>
+      
     </div>
     </Container>
   </div>

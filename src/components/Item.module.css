@@ -1,0 +1,28 @@
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.desc {
+  color: rgb(52, 58, 64);
+}
+
+.date {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.9rem;
+  position: "absolute";
+  top: "79%";
+}
+
+.tag {
+  border: 2px solid rgb(12, 166, 120);
+  background-color: white;
+  color: rgb(12, 166, 120);
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 6px;
+  display: inline-block;
+}

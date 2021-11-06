@@ -1,17 +1,13 @@
-
 .header {
   height: 4rem;
-  
-  
-  
+  margin-bottom: 50px;
 }
 
-.header_wrap{
+.header_wrap {
   display: flex;
   width: 90%;
   justify-content: space-between;
-  margin:auto;
+  margin: auto;
   align-items: center;
   padding-top: 10px;
 }
-
