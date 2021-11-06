@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Divider, Form, Label, Input, TextArea } from "semantic-ui-react";
-import { ButtonArea } from "../components";
+import { Container, Divider } from "semantic-ui-react";
+import { ButtonArea, EditorArea } from "../components";
 import { useHistory } from "react-router-dom";
-import styles from "../css/CreatePostPage.module.css";
 
 const CreatePostPage = () => {
   const history = useHistory();
@@ -12,7 +11,7 @@ const CreatePostPage = () => {
   );
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
-  const [content, setContent] = useState("");
+  const [body, setBody] = useState("");
   const [currentTag, setCurrentTag] = useState("");
   const tagInput = useRef();
 
@@ -22,11 +21,11 @@ const CreatePostPage = () => {
       console.log(workingInPost);
       setTitle(workingInPost.title);
       setTags(workingInPost.tags);
-      setContent(workingInPost.content);
+      setBody(workingInPost.body);
     }
   }, []);
 
-  const handleKeyPress = event => {
+  const handleInputTag = event => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
       console.log("Enter key or comma pressed");
@@ -41,6 +40,21 @@ const CreatePostPage = () => {
     }
   };
 
+  const handleChange = (name, value) => {
+    console.log("handleChange", name, value);
+    switch (name) {
+      case "title":
+        setTitle(value);
+        break;
+      case "currentTag":
+        setCurrentTag(value);
+        break;
+      case "body":
+        setBody(value);
+        break;
+    }
+  };
+
   const handleClick = (event, data) => {
     const { id } = data;
     switch (id) {
@@ -50,12 +64,12 @@ const CreatePostPage = () => {
         break;
       case "btnSave":
         console.log("btnSave");
-        console.log("title, tags, content", title, tags, content);
+        console.log("title, tags, body", title, tags, body);
 
         axios
           .post("https://limitless-sierra-67996.herokuapp.com/v1" + "/posts", {
             title,
-            body: content,
+            body,
             tags
           })
           .then(response => {
@@ -68,65 +82,29 @@ const CreatePostPage = () => {
         break;
       case "btnSaveTmp":
         console.log("btnSaveTmp");
-        console.log("title, tags, content", title, tags, content);
+        console.log("title, tags, body", title, tags, body);
 
         window.localStorage.setItem(
           "post",
-          JSON.stringify({ title, tags, content })
+          JSON.stringify({ title, tags, body })
         );
         break;
     }
   };
   return (
-    <>
-      <Input
-        size="big"
-        fluid
-        transparent
-        placeholder="제목을 입력하세요"
-        onChange={e => setTitle(e.target.value)}
-        value={title}
-        className={styles.inputArea}
+    <Container>
+      <EditorArea
+        onChange={handleChange}
+        onInputTag={handleInputTag}
+        tagInput={tagInput}
+        title={title}
+        tags={tags}
+        body={body}
+        currentTag={currentTag}
       />
-
-      <div className={styles.tagArea}>
-        <Label.Group tag className={styles.tagList}>
-          {tags &&
-            tags.length > 0 &&
-            tags.map((tag, index) => (
-              <Label key={index + "_" + tag} as="a" tag color="teal">
-                {tag}
-              </Label>
-            ))}
-          <Input
-            size="small"
-            fluid
-            transparent
-            placeholder="태그를 입력하세요"
-            onChange={e => setCurrentTag(e.target.value)}
-            onKeyUp={e => handleKeyPress(e)}
-            className={styles.inputArea}
-            value={currentTag}
-            ref={tagInput}
-          />
-        </Label.Group>
-      </div>
-
-      <Divider clearing />
-
-      <Form>
-        <TextArea
-          placeholder="Tell us more"
-          onChange={e => setContent(e.target.value)}
-          style={{ minHeight: 700 }}
-          value={content}
-        />
-      </Form>
-
       <Divider />
-
       <ButtonArea onClick={handleClick} />
-    </>
+    </Container>
   );
 };
 
