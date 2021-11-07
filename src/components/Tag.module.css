@@ -1,0 +1,20 @@
+.tag {
+  margin-bottom: 0.875 rem;
+  background: rgb(241, 243, 245);
+  padding-left: 1 rem;
+  padding-right: 1 rem;
+  height: 2 rem;
+  border-radius: 1 rem;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-right: 0.875 rem;
+  color: rgb(12, 166, 120);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.2rem;
+
+  border-radius: 60px 60px 60px 60px;
+  padding: 5px;
+  margin: 5px;
+}

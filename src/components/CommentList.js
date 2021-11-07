@@ -1,3 +1,4 @@
+import classes from "./CommentList.module.css";
 import axios from "axios";
 import {useState} from 'react';
 import { Button, Comment, Form, Header } from "semantic-ui-react";
@@ -22,7 +23,7 @@ let CommentList = (props) => {
   }
 
   return (
-    <Comment.Group>
+    <Comment.Group className={classes.commentList}>
       <Header as="h3" dividing>
         Comments
       </Header>

@@ -10,7 +10,7 @@ let leftPad = (value) => {
 };
 
 let dateFormattedDateString = (date) => {
-  //타입스크립트 썻으면 좋았을거 같다.
+  
   let result = "";
   if (!date) {
     return result;
