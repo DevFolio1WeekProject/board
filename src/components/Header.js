@@ -13,7 +13,6 @@ let Header = () => {
     } else {
       history.push('/post/create');
     }
-
   }
 
   let buttonText = location.pathname.includes('posts') ? '글수정' : '글쓰기';

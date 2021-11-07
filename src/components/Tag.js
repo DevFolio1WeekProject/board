@@ -3,7 +3,7 @@
 let Tag = (props) => {
 
 
-  return<span>{props.tag}</span>
+  return<span style={{}}>{props.tag}</span>
 }
 
 export default Tag;

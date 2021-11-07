@@ -10,15 +10,15 @@ const PostDetailPage = () => {
   let location = useLocation();
   let [post, setPost] = useState(null)
   let [comments, setComments] = useState([]);
-  console.log(location.pathname.split('/')[2]);
+  
+  let postId = location.pathname.split('/')[2];
   useEffect(()=>{
-    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/posts/' + location.pathname.split('/')[2]).then(res => {
-      console.log(res);
+    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/posts/' + postId).then(res => {
+      
       setPost(res.data);
     })
 
-    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=' + location.pathname.split('/')[2]).then(res => {
-      console.log(res);
+    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=' + postId).then(res => {
       setComments(res.data.results);
     })
   }, [])
@@ -27,26 +27,29 @@ const PostDetailPage = () => {
     return null;
   }
 
-  console.log('post.body', post.body);
   let title = post.title.split('\\n').join('<br />').split('&lt;').join('<');
   let content = post.body.split('\\n').join('<br />').split('&lt;').join('<');
-  
-  console.log(comments);
-  if(comments.length > 0 ){
-//    alert('asdasds');
 
+  if(comments.length > 0 ){
+    
   }
+
+  let reloadCommentList = () => {
+    axios.get('https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=' + postId).then(res => {
+      setComments(res.data.results);
+    }) 
+  }
+
   return <div>
     <Header/>
     <Container>
     <h1 dangerouslySetInnerHTML={{__html:title}}></h1>
-    <hr/>
-    <div>
-      <TagList tags={post.tags}/>
-    </div>
+    
+    <TagList tags={post.tags}/>
+    
     <div dangerouslySetInnerHTML={{__html:content}}>
     </div>
-    <CommentList comments={comments}/>
+    <CommentList comments={comments} postId={postId} reloadCommentList={reloadCommentList}/>
     </Container>
   </div>
     
