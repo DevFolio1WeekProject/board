@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Header, ItemList, Footer } from "../components";
+import { Header, ItemList } from "../components";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 

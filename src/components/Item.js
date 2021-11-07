@@ -61,14 +61,14 @@ export default function Item(props) {
           <div className={classes.date}>{formattedDate}</div>
         </Card.Content>
 
-        <Card.Content extra className={classes.tagList}>
-          <div style={{width: '100%', overflow: 'hidden'}}></div>
+        <Card.Content extra className={classes.tagList_wrapper}>
+          <div className={classes.tagList}>
           {
             props.item.tags.map(data=>{
               return <div className={classes.tag}>{data}</div>
             })
           }
-          
+          </div>
         </Card.Content>
       </Card>
     </div>
