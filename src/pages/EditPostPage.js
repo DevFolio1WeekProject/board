@@ -15,6 +15,9 @@ import styles from "../css/EditPostPage.module.css";
 const EditPostPage = props => {
   const { id } = props.match.params;
   const history = useHistory();
+  const [postData] = useState(
+    () => JSON.parse(window.localStorage.getItem("board")) || {}
+  );
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [body, setBody] = useState("");
@@ -23,19 +26,29 @@ const EditPostPage = props => {
 
   useEffect(() => {
     if (id && id.length > 0) {
-      axios
-        .get("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + id)
-        .then(response => {
-          console.log(response);
-          if (response.status == 200) {
-            const { title, tags, body } = response.data;
+      if (postData.edit && postData.edit[id]) {
+        const { title, tags, body } = postData.edit[id];
 
-            setTitle(title);
-            setTags(tags);
-            setBody(body);
-          }
-        })
-        .catch(error => {});
+        if (title && title.length > 0) setTitle(title);
+        if (tags && tags.length > 0) setTags(tags);
+        if (body && body.length > 0) setBody(body);
+      } else {
+        axios
+          .get("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + id)
+          .then(response => {
+            console.log(response);
+            if (response.status == 200) {
+              const { title, tags, body } = response.data;
+
+              setTitle(title);
+              setTags(tags);
+              setBody(body);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
     }
   }, []);
 
@@ -102,10 +115,11 @@ const EditPostPage = props => {
         console.log("btnSaveTmp");
         console.log("title, tags, body", title, tags, body);
 
-        window.localStorage.setItem(
-          "post",
-          JSON.stringify({ title, tags, body })
-        );
+        const newData = postData;
+        if (!newData.edit) newData.edit = {};
+        newData.edit[id] = { title, tags, body };
+
+        window.localStorage.setItem("board", JSON.stringify(newData));
         break;
     }
   };
