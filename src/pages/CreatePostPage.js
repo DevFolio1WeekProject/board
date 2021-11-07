@@ -6,8 +6,8 @@ import { useHistory } from "react-router-dom";
 
 const CreatePostPage = () => {
   const history = useHistory();
-  const [workingInPost] = useState(
-    () => JSON.parse(window.localStorage.getItem("post")) || ""
+  const [postData] = useState(
+    () => JSON.parse(window.localStorage.getItem("board")) || {}
   );
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
@@ -16,12 +16,12 @@ const CreatePostPage = () => {
   const tagInput = useRef();
 
   useEffect(() => {
-    if (workingInPost) {
+    if (postData.create) {
       // 임시저장되어 있는 값 셋팅
-      console.log(workingInPost);
-      setTitle(workingInPost.title);
-      setTags(workingInPost.tags);
-      setBody(workingInPost.body);
+      console.log(postData);
+      setTitle(postData.create.title);
+      setTags(postData.create.tags);
+      setBody(postData.create.body);
     }
   }, []);
 
@@ -84,10 +84,10 @@ const CreatePostPage = () => {
         console.log("btnSaveTmp");
         console.log("title, tags, body", title, tags, body);
 
-        window.localStorage.setItem(
-          "post",
-          JSON.stringify({ title, tags, body })
-        );
+        const newData = postData;
+        newData.create = { title, tags, body };
+
+        window.localStorage.setItem("board", JSON.stringify(newData));
         break;
     }
   };
