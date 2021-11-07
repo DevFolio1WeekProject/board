@@ -29,9 +29,11 @@ let dateFormattedDateString = (date) => {
 
 export default function Item(props) {
   let formattedDate = dateFormattedDateString(new Date(props.item.createdAt));
-
+  
   let title = props.item.title.split("&lt;").join("<");
-
+  if(props.item.tags.length > 0){
+    
+  }
   let content = props.item.body
     .split("\\n")
     .join("<br />")
@@ -60,7 +62,13 @@ export default function Item(props) {
         </Card.Content>
 
         <Card.Content extra className={classes.tagList}>
-          <div className={classes.tag}>aa</div>
+          <div style={{width: '100%', overflow: 'hidden'}}></div>
+          {
+            props.item.tags.map(data=>{
+              return <div className={classes.tag}>{data}</div>
+            })
+          }
+          
         </Card.Content>
       </Card>
     </div>
