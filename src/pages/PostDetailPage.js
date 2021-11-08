@@ -6,8 +6,10 @@ import { Container, Modal, Icon, Button } from "semantic-ui-react";
 import Header from "../components/Header";
 import TagList from "../components/TagList";
 import CommentList from "../components/CommentList";
+import styles from "../css/PostDetailPage.module.css";
+import { formatDate } from "../utils.js";
 
-const PostDetailPage = props => {
+const PostDetailPage = (props) => {
   const history = useHistory();
   let location = useLocation();
   let [post, setPost] = useState(null);
@@ -18,7 +20,7 @@ const PostDetailPage = props => {
   useEffect(() => {
     axios
       .get("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + postId)
-      .then(res => {
+      .then((res) => {
         setPost(res.data);
       });
 
@@ -27,7 +29,7 @@ const PostDetailPage = props => {
         "https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=" +
           postId
       )
-      .then(res => {
+      .then((res) => {
         setComments(res.data.results);
       });
   }, []);
@@ -36,16 +38,8 @@ const PostDetailPage = props => {
     return null;
   }
 
-  let title = post.title
-    .split("\\n")
-    .join("<br />")
-    .split("&lt;")
-    .join("<");
-  let content = post.body
-    .split("\\n")
-    .join("<br />")
-    .split("&lt;")
-    .join("<");
+  let title = post.title.split("\\n").join("<br />").split("&lt;").join("<");
+  let content = post.body.split("\\n").join("<br />").split("&lt;").join("<");
 
   if (comments.length > 0) {
   }
@@ -56,22 +50,22 @@ const PostDetailPage = props => {
         "https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=" +
           postId
       )
-      .then(res => {
+      .then((res) => {
         setComments(res.data.results);
       });
   };
 
-  const removePost = id => {
+  const removePost = (id) => {
     if (id && id.length > 0) {
       axios
         .delete("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + id)
-        .then(response => {
+        .then((response) => {
           if (response.status == 204) {
             console.log("remove success, id: " + id);
             history.push("/");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     }
@@ -83,12 +77,21 @@ const PostDetailPage = props => {
         id={props.match.params.id}
         onRemove={() => setDeletePopupOpen(true)}
       />
-      <Container>
+      <Container className={styles.container}>
         <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
 
-        <TagList tags={post.tags} />
+        <div className={styles.informationArea}>
+          <span className={styles.date}>{formatDate(post.updatedAt)}</span>
+        </div>
+        {post.tags && post.tags.length > 0 && (
+          <TagList tags={post.tags} className={styles.tagArea} />
+        )}
 
-        <div dangerouslySetInnerHTML={{ __html: content }}></div>
+        <div
+          className={styles.contents}
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
+
         <CommentList
           comments={comments}
           postId={postId}
