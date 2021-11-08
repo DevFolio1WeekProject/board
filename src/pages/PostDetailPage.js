@@ -29,11 +29,11 @@ const PostDetailPage = (props) => {
         `https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}&limit=${10}&page=${commentPageNumber}`
       )
       .then((res) => {
-        console.log('init comment Result', res.data);
+        
         setComments([...comments, ...res.data.results]);
         setTotalCommentCount(res.data.totalResults);
         console.log(res.data.totalPages,  commentPageNumber+1)
-        if(res.data.totalPages === commentPageNumber){
+        if(res.data.totalPages===0 || res.data.totalPages === commentPageNumber){
           console.log('11111');
           setCommentHasMore(false);
           return;
@@ -91,7 +91,7 @@ const PostDetailPage = (props) => {
       }
   };
 
-  const addReply = (newReply) =>{
+  const addReply = (newReply) => {
     console.log('newReply', newReply);
     setComments([...comments, newReply]);
     setTotalCommentCount(totalCommentCount + 1);

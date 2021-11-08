@@ -2,7 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Header, ItemList } from "../components";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Loader } from "semantic-ui-react";
+import { Dimmer, Loader } from "semantic-ui-react";
+import { css } from "@emotion/react";
+import { ClipLoader } from "react-spinners";
+import classes from './Home.module.css'
 
 
 const Home = () => {
@@ -32,24 +35,21 @@ const Home = () => {
       }
     })
   }
-  console.log('items출력 : ', items);
+
   return (
     <div>
       <Header/>
       <main>
-        
         <InfiniteScroll
           dataLength={items.length}
           next={getItemList}
           hasMore={hasMore}
-          loader={<div>aa</div>}
+
         >
-        
+         
         <ItemList items={items}/>
         </InfiniteScroll>
-        
       </main>
-      
     </div>
   );
 };
