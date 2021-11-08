@@ -1,3 +1,22 @@
 .bodyArea {
-  min-height: 700px;
+  max-height: 800px;
+  min-height: 800px;
+  white-space: pre;
+}
+
+.preview {
+  margin-top: 0.7rem;
+}
+
+.tagArea {
+  margin-top: 0.7rem;
+  color: rgb(52, 58, 64);
+  font-size: 1.125rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
 }

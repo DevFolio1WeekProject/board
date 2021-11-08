@@ -2,16 +2,11 @@ import React from "react";
 import { Divider, Form, Label, Input, TextArea } from "semantic-ui-react";
 import styles from "../css/CreatePostPage.module.css";
 
-const EditorArea = props => {
-  const {
-    onChange,
-    onInputTag,
-    tagInput,
-    title,
-    tags,
-    body,
-    currentTag
-  } = props;
+const EditorArea = (props) => {
+  const { onChange, onInputTag, tagInput, title, tags, body, currentTag } =
+    props;
+
+  console.log(body);
 
   return (
     <div>
@@ -20,7 +15,7 @@ const EditorArea = props => {
         fluid
         transparent
         placeholder="제목을 입력하세요"
-        onChange={e => onChange("title", e.target.value)}
+        onChange={(e) => onChange("title", e.target.value)}
         value={title}
         className={styles.inputArea}
       />
@@ -39,8 +34,8 @@ const EditorArea = props => {
             fluid
             transparent
             placeholder="태그를 입력하세요"
-            onChange={e => onChange("currentTag", e.target.value)}
-            onKeyUp={e => onInputTag(e)}
+            onChange={(e) => onChange("currentTag", e.target.value)}
+            onKeyUp={(e) => onInputTag(e)}
             className={styles.inputArea}
             value={currentTag}
             ref={tagInput}
@@ -53,8 +48,8 @@ const EditorArea = props => {
       <Form>
         <TextArea
           placeholder="Tell us more"
-          onChange={e => onChange("body", e.target.value)}
-          style={{ minHeight: 700 }}
+          onChange={(e) => onChange("body", e.target.value)}
+          style={{ minHeight: 800, maxHeight: 800 }}
           value={body}
         />
       </Form>
