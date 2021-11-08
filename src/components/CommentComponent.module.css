@@ -1,0 +1,8 @@
+.comment {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+.comment + .comment {
+  border-top: 1px solid rgb(233, 236, 239) !important;
+}

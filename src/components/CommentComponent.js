@@ -1,5 +1,6 @@
-import { Comment, Icon } from "semantic-ui-react";
+import { Comment } from "semantic-ui-react";
 import { formatDate } from "../utils.js";
+import styles from "./CommentComponent.module.css";
 
 let leftPad = (value) => {
   if (value >= 10) {
@@ -34,7 +35,7 @@ let CommentComponent = (props) => {
   let updatedDate = dateFormattedDateString(new Date(props.comment.updatedAt));
 
   return (
-    <Comment>
+    <Comment className={styles.comment}>
       <Comment.Avatar src="/user.png" />
       <Comment.Content>
         <Comment.Author as="a">Anonymous</Comment.Author>
@@ -42,6 +43,10 @@ let CommentComponent = (props) => {
           <div>{formatDate(props.comment.updatedAt)}</div>
         </Comment.Metadata>
         <Comment.Text>{comment.body}</Comment.Text>
+        <Comment.Actions>
+          <a>수정</a>
+          <a>삭제</a>
+        </Comment.Actions>
       </Comment.Content>
     </Comment>
   );
