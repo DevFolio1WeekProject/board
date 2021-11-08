@@ -81,7 +81,9 @@ const PostDetailPage = (props) => {
         <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
 
         <div className={styles.informationArea}>
-          <span className={styles.date}>{formatDate(post.updatedAt)}</span>
+          <span className={styles.date}>
+            {formatDate(post.updatedAt, true)}
+          </span>
         </div>
         {post.tags && post.tags.length > 0 && (
           <TagList tags={post.tags} className={styles.tagArea} />

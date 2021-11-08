@@ -40,7 +40,7 @@ let CommentComponent = (props) => {
       <Comment.Content>
         <Comment.Author as="a">Anonymous</Comment.Author>
         <Comment.Metadata>
-          <div>{formatDate(props.comment.updatedAt)}</div>
+          <div>{formatDate(props.comment.updatedAt, true)}</div>
         </Comment.Metadata>
         <Comment.Text>{comment.body}</Comment.Text>
         <Comment.Actions>
