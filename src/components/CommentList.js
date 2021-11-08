@@ -3,12 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
 import CommentComponent from "./CommentComponent";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 let CommentList = (props) => {
   console.log(props.comments);
-  const { comments } = props;
+  const { comments, totalCommentCount } = props;
   let [newReply, setNewReply] = useState("");
-  //https://react.semantic-ui.com/views/comment/#types-comment
+  console.log('CommentList', props.hasMore);
+  
   let handleAddReplyClick = () => {
     axios
       .post("https://limitless-sierra-67996.herokuapp.com/v1/Comments", {
@@ -16,7 +18,7 @@ let CommentList = (props) => {
         body: newReply,
       })
       .then(() => {
-        props.reloadCommentList();
+        props.addReply({createdAt: new Date(), updatedAt: new Date(), body: newReply});
         setNewReply("");
       });
   };
@@ -28,7 +30,7 @@ let CommentList = (props) => {
   return (
     <Comment.Group className={classes.commentList}>
       <Header as="h3" dividing>
-        {(comments && comments.length > 0 ? comments.length : 0) + "개의 댓글"}
+        {(totalCommentCount && totalCommentCount > 0 ? totalCommentCount : 0) + "개의 댓글"}
       </Header>
 
       <Form reply>
@@ -48,12 +50,18 @@ let CommentList = (props) => {
           floated="right"
         />
       </Form>
-
+      <InfiniteScroll
+        dataLength={comments.length}
+        next={props.getCommentList}
+        hasMore={props.hasMore}
+        loader={<div>aa</div>}
+      >
       <div className={classes.commentArea}>
         {comments.map((comment) => {
-          return <CommentComponent comment={comment} />;
+          return <CommentComponent key={comment.id} comment={comment} />;
         })}
       </div>
+      </InfiniteScroll>
     </Comment.Group>
   );
 };

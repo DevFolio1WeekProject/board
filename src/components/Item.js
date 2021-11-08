@@ -11,7 +11,7 @@ let leftPad = (value) => {
 
 let dateFormattedDateString = (date) => {
   
-  let result = "";
+  let result = "";  
   if (!date) {
     return result;
   }
@@ -63,11 +63,10 @@ export default function Item(props) {
 
         <Card.Content extra className={classes.tagList_wrapper}>
           <div className={classes.tagList}>
-          {
-            props.item.tags.map(data=>{
-              return <div className={classes.tag}>{data}</div>
-            })
-          }
+            {
+              props.item.tags.length > 0 ? <div className={classes.tag}>{`#${props.item.tags.join(' #')}`}</div> : null
+            
+            }
           </div>
         </Card.Content>
       </Card>

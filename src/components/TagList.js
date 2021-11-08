@@ -6,7 +6,7 @@ let TagList = (props) => {
   return (
     <div className={classes.tagList + " " + props.className}>
       {props.tags.map((tag) => {
-        return <Tag tag={tag} />;
+        return <Tag key={tag} tag={tag} />;
       })}
     </div>
   );

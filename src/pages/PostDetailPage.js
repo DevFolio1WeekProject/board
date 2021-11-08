@@ -16,22 +16,41 @@ const PostDetailPage = (props) => {
   let [comments, setComments] = useState([]);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
 
+  
+  let [commentPageNumber, setCommentPageNumber] = useState(1);
+  let [totalCommentCount, setTotalCommentCount] = useState(0);
+  let [commentHasMore, setCommentHasMore] = useState(true);
+
   let postId = location.pathname.split("/")[2];
+
+  let getCommentList = () => {
+    axios
+      .get(
+        `https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}&limit=${10}&page=${commentPageNumber}`
+      )
+      .then((res) => {
+        console.log('init comment Result', res.data);
+        setComments([...comments, ...res.data.results]);
+        setTotalCommentCount(res.data.totalResults);
+        console.log(res.data.totalPages,  commentPageNumber+1)
+        if(res.data.totalPages === commentPageNumber){
+          console.log('11111');
+          setCommentHasMore(false);
+          return;
+        }else{
+          console.log('22222');
+          setCommentPageNumber(commentPageNumber + 1);
+        }
+    });
+  }
+
   useEffect(() => {
     axios
       .get("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + postId)
       .then((res) => {
         setPost(res.data);
       });
-
-    axios
-      .get(
-        "https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=" +
-          postId
-      )
-      .then((res) => {
-        setComments(res.data.results);
-      });
+      getCommentList();
   }, []);
 
   if (!post) {
@@ -44,14 +63,15 @@ const PostDetailPage = (props) => {
   if (comments.length > 0) {
   }
 
+
+
   let reloadCommentList = () => {
     axios
-      .get(
-        "https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=" +
-          postId
-      )
+      .get(`https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}`)
       .then((res) => {
         setComments(res.data.results);
+        setCommentPageNumber(1);
+        setCommentHasMore(false);
       });
   };
 
@@ -68,8 +88,14 @@ const PostDetailPage = (props) => {
         .catch((error) => {
           console.error(error);
         });
-    }
+      }
   };
+
+  const addReply = (newReply) =>{
+    console.log('newReply', newReply);
+    setComments([...comments, newReply]);
+    setTotalCommentCount(totalCommentCount + 1);
+  }
 
   return (
     <div>
@@ -98,6 +124,10 @@ const PostDetailPage = (props) => {
           comments={comments}
           postId={postId}
           reloadCommentList={reloadCommentList}
+          hasMore={commentHasMore}
+          getCommentList={getCommentList}
+          totalCommentCount={totalCommentCount}
+          addReply={addReply}
         />
       </Container>
 

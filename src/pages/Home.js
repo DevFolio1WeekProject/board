@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Header, ItemList } from "../components";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Loader } from "semantic-ui-react";
 
 
 const Home = () => {
@@ -36,17 +37,19 @@ const Home = () => {
     <div>
       <Header/>
       <main>
+        
         <InfiniteScroll
           dataLength={items.length}
           next={getItemList}
           hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
+          loader={<div>aa</div>}
         >
         
         <ItemList items={items}/>
         </InfiniteScroll>
+        
       </main>
-      {/* <Footer/> */}
+      
     </div>
   );
 };
