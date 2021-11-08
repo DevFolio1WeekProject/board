@@ -6,13 +6,13 @@ import {
   Grid,
   Header,
   Segment,
-  Label
+  Label,
 } from "semantic-ui-react";
 import { ButtonArea, EditorArea } from "../components";
 import { useHistory } from "react-router-dom";
 import styles from "../css/EditPostPage.module.css";
 
-const EditPostPage = props => {
+const EditPostPage = (props) => {
   const { id } = props.match.params;
   const history = useHistory();
   const [postData] = useState(
@@ -23,6 +23,8 @@ const EditPostPage = props => {
   const [body, setBody] = useState("");
   const [currentTag, setCurrentTag] = useState("");
   const tagInput = useRef();
+  const bodyInput = useRef();
+  const [bodyHeight, setBodyHeight] = useState(0);
 
   useEffect(() => {
     if (id && id.length > 0) {
@@ -35,7 +37,7 @@ const EditPostPage = props => {
       } else {
         axios
           .get("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + id)
-          .then(response => {
+          .then((response) => {
             console.log(response);
             if (response.status == 200) {
               const { title, tags, body } = response.data;
@@ -45,14 +47,14 @@ const EditPostPage = props => {
               setBody(body);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
       }
     }
   }, []);
 
-  const handleInputTag = event => {
+  const handleInputTag = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
       console.log("Enter key or comma pressed");
@@ -100,14 +102,14 @@ const EditPostPage = props => {
               id,
               title,
               body,
-              tags
+              tags,
             }
           )
-          .then(response => {
+          .then((response) => {
             console.log(response);
             history.push("/posts/" + id);
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
         break;
@@ -138,18 +140,23 @@ const EditPostPage = props => {
             currentTag={currentTag}
           />
         </Grid.Column>
-        <Grid.Column verticalAlign="middle">
-          <Segment>
-            <Header>{title}</Header>
-            {tags &&
-              tags.length > 0 &&
-              tags.map((tag, index) => (
-                <Label key={index + "_" + tag} as="a" tag color="teal">
-                  {tag}
-                </Label>
-              ))}
+        <Grid.Column>
+          <div className={styles.preview}>
+            <Header className={styles.title}>{title}</Header>
+            <div className={styles.tagArea}>
+              <div className={styles.tagList}>
+                {tags &&
+                  tags.length > 0 &&
+                  tags.map((tag, index) => (
+                    <Label key={index + "_" + tag} as="a" tag color="teal">
+                      {tag}
+                    </Label>
+                  ))}
+              </div>
+            </div>
+            <Divider />
             <Container className={styles.bodyArea}>{body}</Container>
-          </Segment>
+          </div>
         </Grid.Column>
       </Grid>
 
