@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Comment, TextArea } from "semantic-ui-react";
+import { Comment, Form, TextArea } from "semantic-ui-react";
 import { formatDate } from "../utils.js";
 import styles from "./CommentComponent.module.css";
 
@@ -49,10 +49,12 @@ let CommentComponent = (props) => {
       <Comment.Avatar src="/user.png" />
       <Comment.Content>
         {editMode ? (
-          <TextArea
-            value={newBody}
-            onChange={(e) => setNewBody(e.target.value)}
-          />
+          <Form>
+            <TextArea
+              value={newBody}
+              onChange={(e) => setNewBody(e.target.value)}
+            />
+          </Form>
         ) : (
           <>
             <Comment.Author as="a">Anonymous</Comment.Author>

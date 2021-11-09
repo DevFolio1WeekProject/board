@@ -6,3 +6,8 @@
 .comment + .comment {
   border-top: 1px solid rgb(233, 236, 239) !important;
 }
+
+.comment textarea {
+  min-height: 60px;
+  max-height: 60px;
+}
