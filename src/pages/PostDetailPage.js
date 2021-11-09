@@ -16,7 +16,6 @@ const PostDetailPage = (props) => {
   let [comments, setComments] = useState([]);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
 
-  
   let [commentPageNumber, setCommentPageNumber] = useState(1);
   let [totalCommentCount, setTotalCommentCount] = useState(0);
   let [commentHasMore, setCommentHasMore] = useState(true);
@@ -29,20 +28,22 @@ const PostDetailPage = (props) => {
         `https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}&limit=${10}&page=${commentPageNumber}`
       )
       .then((res) => {
-        
         setComments([...comments, ...res.data.results]);
         setTotalCommentCount(res.data.totalResults);
-        console.log(res.data.totalPages,  commentPageNumber+1)
-        if(res.data.totalPages===0 || res.data.totalPages === commentPageNumber){
-          console.log('11111');
+        console.log(res.data.totalPages, commentPageNumber + 1);
+        if (
+          res.data.totalPages === 0 ||
+          res.data.totalPages === commentPageNumber
+        ) {
+          console.log("11111");
           setCommentHasMore(false);
           return;
-        }else{
-          console.log('22222');
+        } else {
+          console.log("22222");
           setCommentPageNumber(commentPageNumber + 1);
         }
-    });
-  }
+      });
+  };
 
   useEffect(() => {
     axios
@@ -50,7 +51,7 @@ const PostDetailPage = (props) => {
       .then((res) => {
         setPost(res.data);
       });
-      getCommentList();
+    getCommentList();
   }, []);
 
   if (!post) {
@@ -63,13 +64,14 @@ const PostDetailPage = (props) => {
   if (comments.length > 0) {
   }
 
-
-
   let reloadCommentList = () => {
     axios
-      .get(`https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}`)
+      .get(
+        `https://limitless-sierra-67996.herokuapp.com/v1/comments?postId=${postId}`
+      )
       .then((res) => {
         setComments(res.data.results);
+        setTotalCommentCount(res.data.totalResults);
         setCommentPageNumber(1);
         setCommentHasMore(false);
       });
@@ -80,7 +82,7 @@ const PostDetailPage = (props) => {
       axios
         .delete("https://limitless-sierra-67996.herokuapp.com/v1/posts/" + id)
         .then((response) => {
-          if (response.status == 204) {
+          if (response.status == 200 || response.status == 204) {
             console.log("remove success, id: " + id);
             history.push("/");
           }
@@ -88,14 +90,14 @@ const PostDetailPage = (props) => {
         .catch((error) => {
           console.error(error);
         });
-      }
+    }
   };
 
   const addReply = (newReply) => {
-    console.log('newReply', newReply);
+    console.log("newReply", newReply);
     setComments([...comments, newReply]);
     setTotalCommentCount(totalCommentCount + 1);
-  }
+  };
 
   return (
     <div>
