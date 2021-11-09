@@ -89,7 +89,7 @@ const EditPostPage = (props) => {
     switch (name) {
       case "btnExit":
         console.log("btnExit");
-        history.push("/");
+        history.goBack();
         break;
       case "btnSave":
         console.log("btnSave");
