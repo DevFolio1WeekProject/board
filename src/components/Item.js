@@ -17,7 +17,7 @@ let dateFormattedDateString = (date) => {
   }
 
   let year = date.getFullYear();
-  let month = leftPad(date.getMonth());
+  let month = leftPad(date.getMonth()+1);
   let day = leftPad(date.getDate());
   let hours = leftPad(date.getHours());
   let minutes = date.getMinutes();
